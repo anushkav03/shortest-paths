@@ -1,4 +1,5 @@
-# i don't anticipate needing more classes but just in case
+# i don't anticipate needing more classes, but just in case
+# all classes will be defined here
 
 class StopNode():
     def __init__(self, stop_name, stop_lat, stop_lon):
