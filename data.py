@@ -17,16 +17,23 @@ stops = pd.read_csv('data/stops.csv')
 stop_times = pd.read_csv('data/stop_times.csv')
 trips = pd.read_csv('data/trips.csv')
 
-# stop times for trip 9877020 for route 51b
+# randomly choosing one trip for each route
+trips_lst = trips.groupby('route_id')['trip_id'].first()
+
+# stop_times contains sequenced stops
 stops_test = pd.merge(stop_times, stops, how='left', on='stop_id')
-stops_test = stops_test.loc[stops_test['trip_id']==9877020, ['stop_id', 'stop_sequence', 'stop_name', 'trip_id', 'arrival_time', 'departure_time', 'stop_lat', 'stop_lon']]
+
+# Keeping only those stops that correspond to our list of (randomly chosen) trips. Each route is represented once.
+# Rows are ordered by trip_id then stop_sequence, so going down the rows and adding an edge between two successive stops within a trip will give all the right edges
+stops_test = stops_test.loc[stops_test['trip_id'].isin(trips_lst), ['stop_id', 'stop_sequence', 'stop_name', 'trip_id', 'arrival_time', 'departure_time', 'stop_lat', 'stop_lon']]
+stops_test.head()
 
 ## making graph representation (dicts for nodes and adjacency list for edges) ##
 
 ## nodes
-node_subset = stops_test.set_index('stop_id')
+node_subset = stops_test.groupby('stop_id').first()
+#node_subset = node_subset.set_index('stop_id')
 node_subset = node_subset.loc[:, ['stop_name', 'stop_lat', 'stop_lon']]
-num_nodes = len(node_subset)
 stops_test_dict = node_subset.to_dict('index')
 
 # new syntax wow! dictionary comprehension. 
@@ -71,7 +78,7 @@ def bfs(edges_dict, start, end):
                 q.append(stop)
     path.append(end)
     return path
-
+# note no error handling yet! if you try going from b->a when edge DNE, whole thing will error
 
 #print(bfs(nodes_dict, edges_dict, 743, 747))
 path_stop_ids = bfs(edges_dict, 743, 386)
