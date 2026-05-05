@@ -1,4 +1,4 @@
-#**Public Transit Router (SF Bay Area)**#
+**#Public Transit Router (SF Bay Area)#**
 
 A public transit routing engine built from the ground up using raw GTFS (General Transit Feed Specification) data to solve the "Shortest Path" problem in dynamic transit networks. I love the Bay Area and I love public transit! <3 
 
