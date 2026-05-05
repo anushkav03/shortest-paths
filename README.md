@@ -28,3 +28,6 @@ I am working on refactoring the data representation to be more memory-efficient.
 **Optimization:** More efficient data representation that uses less memory. Also some way to speed up the graph traversal process - some form of caching maybe. 
 
 **Better visualization:** Using different colours to represent "hopping" between lines.
+
+## To Run: ##
+streamlit run main.py
